@@ -2,6 +2,7 @@ using GestorEntradas.Components;
 using GestorEntradas.Components.Account;
 using GestorEntradas.DAL;
 using GestorEntradas.Data;
+using GestorEntradas.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddScoped<EntradasService>();
 
 var app = builder.Build();
 
