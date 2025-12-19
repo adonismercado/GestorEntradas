@@ -3,6 +3,131 @@
 @inject NavigationManager nav
 @rendermode InteractiveServer
 
+<PageTitle>Crear - Entrada</PageTitle>
+<EditForm Model="Entrada" OnSubmit="Guardar" FormName="EntradaCreate">
+	<DataAnnotationsValidator />
+
+	<div class="container">
+		<div class="card shadow-lg">
+			<div class="card-header text-center">
+				<h5 class="card-title">Crear Entrada</h5>
+			</div>
+
+			<div class="card-body">
+				<div class="mb-3">
+					<label class="form-label">Fecha Entrada</label>
+					<InputDate class="form-control" @bind-Value="Entrada.FechaEntrada"></InputDate>
+					<ValidationMessage For="() => Entrada.FechaEntrada" />
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Entrada ID</label>
+					<InputNumber class="form-control" @bind-Value="Entrada.EntradaId" readonly></InputNumber>
+					<ValidationMessage For="() => Entrada.EntradaId" />
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Concepto</label>
+					<InputText class="form-contorl" @bind-Value="Entrada.Concepto"></InputText>
+					<ValidationMessage For="() => Entrada.Concepto" />
+				</div>
+
+				<hr />
+
+				<div class="border border-success p-3 m-3">
+					<h3>Detalle</h3>
+
+					<hr class="py-1" />
+
+					<div class="col-auto input-group align-items-center">
+						<label class="col-form-label input-group-text">Seleccione:</label>
+
+						<InputSelect class="form-control form-select" @bind-Value="DetalleSeleccionado.ProductoId">
+							<option value="0" selected disabled>Seleccione un producto:</option>
+							@foreach (var p in ListaProductos)
+							{
+								<option value="@p.ProductoId">@p.ProductoId - @p.Descripcion - Existencia: @p.Existencia</option>
+							}
+						</InputSelect>
+
+						<label class="col-form-label input-group-text">Cantidad:</label>
+						<InputNumber class="form-control" @bind-Value="DetalleSeleccionado.Cantidad" min="0"></InputNumber>
+
+						<label class="col-form-label input-group-text">Costo:</label>
+						<InputNumber class="form-control" @bind-Value="DetalleSeleccionado.Costo" min="0"></InputNumber>
+
+						<button type="button" class="btn bt-outline-primary" @onclick="AgregarDetalle">
+							<span class="bi bi-plus-square"></span> Agregar
+						</button>
+					</div>
+
+					@if (!string.IsNullOrWhiteSpace(errorMensaje))
+					{
+						<div class="alert alert-danger">@errorMensaje</div>
+					}
+
+					<hr class="py-1" />
+
+					<table class="table table-light table-bordered table-hover mt-2">
+						<thead>
+							<tr class="text-center">
+								<th>ID</th>
+								<th>Descripci&oacute;n</th>
+								<th>Cantidad</th>
+								<th>Costo</th>
+								<th>Total</th>
+								<th>Acci&oacute;n</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							@foreach (var d in Entrada.Detalles)
+							{
+								<tr>
+									<td>@ListaProductos.FirstOrDefault(c => c.ProductoId == d.ProductoId)?.ProductoId</td>
+									<td>@ListaProductos.FirstOrDefault(c => c.ProductoId == d.ProductoId)?.Descripcion</td>
+									<td>@d.Cantidad</td>
+									<td>@d.Costo</td>
+									<td>@(d.Cantidad* d.Costo)</td>
+									<td>
+										<button type="button" class="btn btn-outline-danger btn-sm" @onclick="() => RemoverDetalle(d)">
+											<span class="bi bi-trash"></span>
+										</button>
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+
+					<hr />
+
+					<div class="d-flex justify-content-between">
+						<div class="mb-3">
+							<label class="form-label">Conteo:</label>
+							<input type="number" class="form-control text-secondary" value="@Entrada.Detalles.Count()" readonly />
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label">Total:</label>
+							<input type="number" class="form-control text-secondary" value="@Entrada.Detalles.Sum(d => d.Cantidad * d.Costo)"
+						</div>
+					</div>
+				</div>
+
+				<div class="card-footer text-center">
+					<a href="/entradas" class="btn btn-secondary">
+						<span class="bi bi-arrow-left"></span>" Volver
+					</a>
+
+					<button type="submit" class="btn btn-primary" @onclick="Guardar">
+						<span class="bi bi-save"></span> Guardar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</EditForm>
+
 @code {
 	public Entrada Entrada { get; set; } = new Entrada();
 	public List<Producto> ListaProductos { get; set; } = new List<Producto>();
