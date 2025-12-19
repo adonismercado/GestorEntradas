@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GestorEntradas.Models;
 
@@ -19,4 +20,7 @@ public class Producto
     public double Precio { get; set; }
 
     public int Existencia { get; set; }
+
+    [InverseProperty("Producto")]
+    public virtual ICollection<EntradaDetalle> EntradaDetalles { get; set; } = new List<EntradaDetalle>();
 }

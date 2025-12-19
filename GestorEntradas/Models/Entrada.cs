@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GestorEntradas.Models;
 
@@ -15,4 +16,7 @@ public class Entrada
 
     [Required(ErrorMessage = "El total es obligatorio.")]
     public decimal Total { get; set; }
+
+    [InverseProperty("Entrada")]
+    public virtual ICollection<EntradaDetalle> Detalles { get; set; } = new List<EntradaDetalle>();
 }
