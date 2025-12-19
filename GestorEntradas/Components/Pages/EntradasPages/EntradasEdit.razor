@@ -1,0 +1,100 @@
+﻿@page "/entradas/edit/{EntradaId:int}"
+@inject EntradasService entradasService
+@inject NavigationManager nav
+@rendermode InteractiveServer
+
+<PageTitle>Editar - Entrada</PageTitle>
+
+@code {
+	[Parameter]
+	public int EntradaId { get; set; }
+
+	public Entrada Entrada { get; set; } = new Entrada();
+	public EntradaDetalle DetalleSeleccionado { get; set; } = new EntradaDetalle();
+	public List<Producto> ListaProductos { get; set; } = new List<Producto>();
+
+	public string? errorMensaje { get; set; }
+	public bool mostrarModal = false;
+
+	protected override async Task OnInitializedAsync()
+	{
+		ListaProductos = await entradasService.ListarProductos();
+		if (EntradaId > 0)
+		{
+			Entrada = await entradasService.Buscar(EntradaId);
+		}
+	}
+
+	private async Task Guardar()
+	{
+		var modificado = await entradasService.Guardar(Entrada);
+		if (modificado)
+		{
+			nav.NavigateTo("/index");
+		}
+		else
+		{
+			errorMensaje = "No se pudo editar la entrada.";
+		}
+	}
+
+	private async Task AgregarDetalle()
+	{
+		errorMensaje = null;
+
+		if (DetalleSeleccionado.ProductoId == 0)
+		{
+			errorMensaje = "Debe seleccionar al menos 1 producto.";
+		}
+		if (DetalleSeleccionado.Cantidad <= 0)
+		{
+			errorMensaje = "La cantidad debe ser mayor que 0.";
+		}
+		if (DetalleSeleccionado.Costo <= 0)
+		{
+			errorMensaje = "El costo debe ser mayor que 0.";
+		}
+
+		var producto = ListaProductos.Single(p => p.ProductoId == DetalleSeleccionado.ProductoId);
+
+		var detalle = new EntradaDetalle
+		{
+			ProductoId = producto.ProductoId,
+			Cantidad = DetalleSeleccionado.Cantidad,
+			Costo = DetalleSeleccionado.Costo
+		};
+
+		Entrada.Detalles.Add(detalle);
+		DetalleSeleccionado = new EntradaDetalle();
+		await Task.CompletedTask;
+	}
+
+	private void RemoverDetalle(EntradaDetalle detalle)
+	{
+		Entrada.Detalles.Remove(detalle);
+		DetalleSeleccionado = detalle;
+	}
+
+	private async Task Eliminar()
+	{
+		var eliminado = await entradasService.Eliminar(Entrada.EntradaId);
+		if (eliminado)
+		{
+			nav.NavigateTo("/entradas");
+		}
+		else
+		{
+			errorMensaje = "No se pudo eliminar la entrada correctamente.";
+		}
+	}
+
+	private void MostrarModal()
+	{
+		mostrarModal = true;
+	}
+
+	private void CerrarModal()
+	{
+		mostrarModal = false;	
+	}
+}
