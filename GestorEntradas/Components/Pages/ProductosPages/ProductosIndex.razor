@@ -1,0 +1,40 @@
+﻿@page "/productos"
+@inject ProductosService productosService
+
+@code {
+	public List<Producto> ListaProductos { get; set; } = new List<Producto>();
+	public string? Filtro { get; set; }
+	public string? ValorFiltro { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		ListaProductos = await productosService.ListarProductos(p => p.ProductoId > 0);
+	}
+
+	private async Task Buscar()
+	{
+		if (!string.IsNullOrWhiteSpace(ValorFiltro))
+		{
+			if (Filtro == "ProductoId" && int.TryParse(ValorFiltro, out var productoId))
+			{
+				ListaProductos = await productosService.ListarProductos(p => p.ProductoId == productoId);
+			}
+			else if (Filtro == "Descripcion")
+			{
+				ListaProductos = await productosService.ListarProductos(p => p.Descripcion.ToLower().Contains(ValorFiltro));
+			}
+			else if (Filtro == "Costo" && double.TryParse(ValorFiltro, out var costo))
+			{
+				ListaProductos = await productosService.ListarProductos(p => p.Costo == costo);
+			}
+			else if (Filtro == "Precio" && double.TryParse(ValorFiltro, out var precio))
+			{
+				ListaProductos = await productosService.ListarProductos(p => p.Precio == precio);
+			}
+			else if (Filtro == "Existencia" && int.TryParse(ValorFiltro, out var existencia))
+			{
+				ListaProductos = await productosService.ListarProductos(p => p.Existencia == existencia);
+			}
+		}
+	}
+}
