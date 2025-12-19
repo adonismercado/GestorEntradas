@@ -7,13 +7,13 @@
 		<div class="card-header d-flex justify-content-between align-items-center">
 			<h5 class="card-title">Entradas</h5>
 			<a href="/entradas/create" class="btn btn-outline-primary">
-				<span class="bi bi-plus-square mt-3">Agregar Entrada</span>
+				<span class="bi bi-plus-square mt-3"></span> Agregar Entrada
 			</a>
 		</div>
 
 		<div class="card-body">
 			<div class="row align-items-center g-2">
-				<div class="col-12 col-sm-6 col-md-2">
+				<div class="col-2 col-sm-6 col-md-2">
 					<label class="col-form-label">Filtrar Por:</label>
 					<InputSelect class="form-select" @bind-Value="Filtro">
 						<option value="" selected disabled>Elija una opci&oacute;n</option>
@@ -22,25 +22,25 @@
 						<option value="Total">Total</option>
 					</InputSelect>
 				</div>
-			</div>
 
-			<div class="col-12 col-sm-6 col-md-2">
-				<label class="col-form-label">Desde:</label>
-				<InputDate class="form-control" @bind-Value="FechaDesde"></InputDate>
-			</div>
+				<div class="col-3 col-sm-6 col-md-2">
+					<label class="col-form-label">Desde:</label>
+					<InputDate class="form-control" @bind-Value="FechaDesde"></InputDate>
+				</div>
 
-			<div class="col-12 col-sm-6 col-md-2">
-				<label class="col-form-label">Hasta:</label>
-				<InputDate class="form-control" @bind-Value="FechaHasta"></InputDate>
-			</div>
+				<div class="col-4 col-sm-6 col-md-2">
+					<label class="col-form-label">Hasta:</label>
+					<InputDate class="form-control" @bind-Value="FechaHasta"></InputDate>
+				</div>
 
-			<div class="col col-sm-6 col-md-3">
-				<label class="col-form-label">B&uacute;squeda</label>
-				<div class="input-group">
-					<InputText class="form-control" @bind-Value="ValorFiltro" placeholder="Buscar..."></InputText>
-					<button type="button" class="btn btn-outline-primary" @onclick="Buscar">
-						<span class="bi bi-search"></span>
-					</button>
+				<div class="col-5 col-sm-6 col-md-3">
+					<label class="col-form-label">B&uacute;squeda</label>
+					<div class="input-group">
+						<InputText class="form-control" @bind-Value="ValorFiltro" placeholder="Buscar..."></InputText>
+						<button type="button" class="btn btn-outline-primary" @onclick="Buscar">
+							<span class="bi bi-search"></span>
+						</button>
+					</div>
 				</div>
 			</div>
 
