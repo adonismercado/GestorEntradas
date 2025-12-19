@@ -1,5 +1,6 @@
 ﻿@page "/entradas/edit/{EntradaId:int}"
 @inject EntradasService entradasService
+@inject ProductosService productosService
 @inject NavigationManager nav
 @rendermode InteractiveServer
 
@@ -176,7 +177,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		ListaProductos = await entradasService.ListarProductos();
+		ListaProductos = await productosService.ListarProductos(p => p.ProductoId > 0);
 		if (EntradaId > 0)
 		{
 			Entrada = await entradasService.Buscar(EntradaId);

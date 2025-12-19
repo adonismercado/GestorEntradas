@@ -1,5 +1,6 @@
 ﻿@page "/entradas/create"
 @inject EntradasService entradasService
+@inject ProductosService productosService
 @inject NavigationManager nav
 @rendermode InteractiveServer
 
@@ -28,7 +29,7 @@
 
 				<div class="mb-3">
 					<label class="form-label">Concepto</label>
-					<InputText class="form-contorl" @bind-Value="Entrada.Concepto"></InputText>
+					<InputText class="form-control" @bind-Value="Entrada.Concepto"></InputText>
 					<ValidationMessage For="() => Entrada.Concepto" />
 				</div>
 
@@ -116,7 +117,7 @@
 
 				<div class="card-footer text-center">
 					<a href="/entradas" class="btn btn-secondary">
-						<span class="bi bi-arrow-left"></span>" Volver
+						<span class="bi bi-arrow-left"></span> Volver
 					</a>
 
 					<button type="submit" class="btn btn-primary" @onclick="Guardar">
@@ -137,7 +138,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		ListaProductos = await entradasService.ListarProductos();
+		ListaProductos = await productosService.ListarProductos(p => p.ProductoId > 0);
 	}
 
 	private async Task Guardar()
