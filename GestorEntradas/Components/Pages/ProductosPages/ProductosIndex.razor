@@ -100,11 +100,11 @@
 			{
 				ListaProductos = await productosService.ListarProductos(p => p.Descripcion.ToLower().Contains(ValorFiltro));
 			}
-			else if (Filtro == "Costo" && double.TryParse(ValorFiltro, out var costo))
+			else if (Filtro == "Costo" && decimal.TryParse(ValorFiltro, out var costo))
 			{
 				ListaProductos = await productosService.ListarProductos(p => p.Costo == costo);
 			}
-			else if (Filtro == "Precio" && double.TryParse(ValorFiltro, out var precio))
+			else if (Filtro == "Precio" && decimal.TryParse(ValorFiltro, out var precio))
 			{
 				ListaProductos = await productosService.ListarProductos(p => p.Precio == precio);
 			}

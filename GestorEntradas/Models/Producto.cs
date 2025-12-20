@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GestorEntradas.Models;
@@ -13,11 +14,11 @@ public class Producto
 
     [Range(0.01, double.MaxValue, ErrorMessage = "El costo debe ser mayor que 0.")]
     [Required(ErrorMessage = "El costo es obligatorio.")]
-    public double Costo { get; set; }
+    public decimal Costo { get; set; }
 
     [Range(0.01, double.MaxValue, ErrorMessage = "El precio debe ser mayor que 0.")]
     [Required(ErrorMessage = "El precio es obligatorio.")]
-    public double Precio { get; set; }
+    public decimal Precio { get; set; }
 
     public int Existencia { get; set; }
 
