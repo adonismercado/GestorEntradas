@@ -18,6 +18,7 @@ public class EntradasService(IDbContextFactory<Contexto> DbFactory)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
         contexto.Entradas.Add(entrada);
+        await AfectarExistenciaProducto(entrada.Detalles.ToArray(), TipoOperacion.Suma);
         return await contexto.SaveChangesAsync() > 0;
     }
 
@@ -37,8 +38,6 @@ public class EntradasService(IDbContextFactory<Contexto> DbFactory)
             {
                 producto.Existencia -= item.Cantidad;
             }
-
-            await contexto.SaveChangesAsync();
         }
     }
     
