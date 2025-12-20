@@ -126,7 +126,7 @@
 					<span class="bi bi-arrow-left"></span> Volver
 				</a>
 
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="btn btn-primary" disabled="@(!Entrada.Detalles.Any())">
 					<span class="bi bi-save"></span> Guardar
 				</button>
 
@@ -142,24 +142,27 @@
 {
 	<div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
 		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-header bg-danger text-white">
-				<h5 class="modal-title">Confirmar Eliminaci&oacute;n</h5>
-			</div>
+			<div class="modal-content">
+				<div class="modal-header bg-danger text-white">
+					<h5 class="modal-title">Confirmar Eliminaci&oacute;n</h5>
+				</div>
 
-			<div class="modal-body">
-				<p>Est&aacute; segudo de eliminar la Entrada con el ID: <strong>@Entrada.EntradaId</strong>, con concepto:
-					<strong>@Entrada.Concepto</strong>?
-				</p>
-			</div>
+				<div class="modal-body">
+					<p>
+						Est&aacute; segudo de eliminar la Entrada con el ID: <strong>@Entrada.EntradaId</strong>, con concepto:
+						<strong>@Entrada.Concepto</strong>?
+					</p>
+				</div>
 
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" @onclick="CerrarModal">
-					<span class="bi bi-arrow-left"></span> Volver
-				</button>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" @onclick="CerrarModal">
+						<span class="bi bi-arrow-left"></span> Volver
+					</button>
 
-				<button type="button" class="btn btn-danger" @onclick="Eliminar">
-					<span class="bi bi-trash"></span> Eliminar
-				</button>
+					<button type="button" class="btn btn-danger" @onclick="Eliminar">
+						<span class="bi bi-trash"></span> Eliminar
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
