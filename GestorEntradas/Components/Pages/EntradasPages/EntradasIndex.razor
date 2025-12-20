@@ -12,8 +12,8 @@
 		</div>
 
 		<div class="card-body">
-			<div class="row align-items-center g-2">
-				<div class="col-2 col-sm-6 col-md-2">
+			<div class="row g-3">
+				<div class="col-12 col-sm-6 col-md-2">
 					<label class="col-form-label">Filtrar Por:</label>
 					<InputSelect class="form-select" @bind-Value="Filtro">
 						<option value="" selected disabled>Elija una opci&oacute;n</option>
@@ -23,17 +23,17 @@
 					</InputSelect>
 				</div>
 
-				<div class="col-3 col-sm-6 col-md-2">
+				<div class="col-12 col-sm-6 col-md-2">
 					<label class="col-form-label">Desde:</label>
 					<InputDate class="form-control" @bind-Value="FechaDesde"></InputDate>
 				</div>
 
-				<div class="col-4 col-sm-6 col-md-2">
+				<div class="col-12 col-sm-6 col-md-2">
 					<label class="col-form-label">Hasta:</label>
 					<InputDate class="form-control" @bind-Value="FechaHasta"></InputDate>
 				</div>
 
-				<div class="col-5 col-sm-6 col-md-3">
+				<div class="col-12 col-sm-12 col-md-3">
 					<label class="col-form-label">B&uacute;squeda</label>
 					<div class="input-group">
 						<InputText class="form-control" @bind-Value="ValorFiltro" placeholder="Buscar..."></InputText>
