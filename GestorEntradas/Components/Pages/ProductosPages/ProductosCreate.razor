@@ -1,0 +1,21 @@
+﻿@page "/productos/create"
+@inject ProductosService productosService
+@inject NavigationManager nav
+
+@code {
+	public Producto Producto { get; set; } = new Producto();
+	public string? errorMensaje { get; set; }
+
+	public async Task Guardar()
+	{
+		var creado = await productosService.Guardar(Producto);
+		if (creado)
+		{
+			nav.NavigateTo("/productos");
+		}
+		else
+		{
+			errorMensaje = "No se pudo crear el producto."; ;
+		}
+	}
+}
