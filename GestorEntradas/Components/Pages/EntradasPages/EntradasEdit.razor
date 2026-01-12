@@ -42,7 +42,9 @@
 					<div class="col-auto input-group align-items-center">
 						<label class="col-form-label input-group-text">Seleccione:</label>
 
-						<InputSelect class="form-control form-select" @bind-Value="DetalleSeleccionado.ProductoId">
+						<InputSelect class="form-control form-select" 
+									 @bind-Value="DetalleSeleccionado.ProductoId"
+									 @bind-Value:after="ProductoSeleccionado">
 							<option value="0" selected disabled>Seleccione un producto:</option>
 							@foreach (var p in ListaProductos)
 							{
@@ -54,7 +56,7 @@
 						<InputNumber class="form-control" @bind-Value="DetalleSeleccionado.Cantidad" min="0"></InputNumber>
 
 						<label class="col-form-label input-group-text">Costo:</label>
-						<InputNumber class="form-contorl" @bind-Value="DetalleSeleccionado.Costo" min="0"></InputNumber>
+						<InputNumber class="form-contorl" @bind-Value="DetalleSeleccionado.Costo" min="0" readonly></InputNumber>
 
 						<button type="button" class="btn btn-outline-primary" @onclick="AgregarDetalle">
 							<span class="bi bi-plus-square"></span> Agregar
@@ -91,7 +93,7 @@
 											<input type="number" class="form-control" @bind="d.Cantidad" min="0"/>
 										</td>
 										<td>
-											<input type="number" class="form-control" @bind="d.Costo" min="0" />
+											@d.Costo
 										</td>
 										<td>@(d.Cantidad * d.Costo)</td>
 										<td>
@@ -260,5 +262,15 @@
 	private void CerrarModal()
 	{
 		mostrarModal = false;	
+	}
+
+	private void ProductoSeleccionado()
+	{
+		var producto = ListaProductos.FirstOrDefault(p => p.ProductoId == DetalleSeleccionado.ProductoId);
+
+		if (producto != null)
+		{
+			DetalleSeleccionado.Costo = producto.Costo;
+		}
 	}
 }
