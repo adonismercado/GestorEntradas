@@ -43,8 +43,10 @@
 					<div class="col-auto input-group align-items-center">
 						<label class="col-form-label input-group-text">Seleccione:</label>
 
-						<InputSelect class="form-control form-select" @bind-Value="DetalleSeleccionado.ProductoId">
-							<option value="0" selected disabled>Seleccione un producto:</option>
+						<InputSelect class="form-control form-select"
+									 @bind-Value="DetalleSeleccionado.ProductoId"
+									 @bind-Value:after="ProductoSeleccionado">
+							<option value="0" disabled>Seleccione un producto:</option>
 							@foreach (var p in ListaProductos)
 							{
 								<option value="@p.ProductoId">@p.ProductoId - @p.Descripcion - Existencia: @p.Existencia</option>
@@ -55,7 +57,7 @@
 						<InputNumber class="form-control" @bind-Value="DetalleSeleccionado.Cantidad" min="0"></InputNumber>
 
 						<label class="col-form-label input-group-text">Costo:</label>
-						<InputNumber class="form-control" @bind-Value="DetalleSeleccionado.Costo" min="0"></InputNumber>
+						<InputNumber class="form-control" @bind-Value="DetalleSeleccionado.Costo" min="0" readonly></InputNumber>
 
 						<button type="button" class="btn btn-outline-primary" @onclick="AgregarDetalle">
 							<span class="bi bi-plus-square"></span> Agregar
@@ -196,5 +198,15 @@
 	{
 		Entrada.Detalles.Remove(detalle);
 		DetalleSeleccionado = detalle;
+	}
+
+	private void ProductoSeleccionado()
+	{
+		var producto = ListaProductos.FirstOrDefault(p => p.ProductoId == DetalleSeleccionado.ProductoId);
+
+		if (producto != null)
+		{
+			DetalleSeleccionado.Costo = producto.Costo;
+		}
 	}
 }
