@@ -122,7 +122,7 @@ public class EntradasService(IDbContextFactory<Contexto> DbFactory)
             return false;
         }
 
-        await AfectarExistenciaProducto(entrada.Detalles.ToArray(), TipoOperacion.Resta);
+        await AfectarExistenciaProducto(contexto, entrada.Detalles.ToArray(), TipoOperacion.Resta);
 
         contexto.EntradaDetalles.RemoveRange(entrada.Detalles);
         contexto.Entradas.Remove(entrada);
