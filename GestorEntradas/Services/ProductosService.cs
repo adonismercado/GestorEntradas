@@ -62,8 +62,16 @@ public class ProductosService(IDbContextFactory<Contexto> DbFactory)
     public async Task<bool> Eliminar(int productoId)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
-        return await contexto.Productos
-            .AsNoTracking()
-            .ExecuteDeleteAsync() > 0;
+
+        var producto = await contexto.Productos
+            .FirstOrDefaultAsync(p => p.ProductoId == productoId);
+
+        if (producto == null)
+        {
+            return false;
+        }
+
+        contexto.Productos.Remove(producto);
+        return await contexto.SaveChangesAsync() > 0;
     }
 }
