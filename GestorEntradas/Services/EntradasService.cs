@@ -59,13 +59,22 @@ public class EntradasService(IDbContextFactory<Contexto> DbFactory)
             return false;
         }
 
-        // Restar cantidad original a la existencia
-        await AfectarExistenciaProducto(entradaAnterior.Detalles.ToArray(), TipoOperacion.Resta);
+        await AfectarExistenciaProducto(contexto, entradaAnterior.Detalles.ToArray(), TipoOperacion.Resta);
+        contexto.EntradaDetalles.RemoveRange(entradaAnterior.Detalles);
 
-        // Sumar nueva cantidad a la existencia
-        await AfectarExistenciaProducto(entrada.Detalles.ToArray(), TipoOperacion.Suma);
+        entradaAnterior.FechaEntrada = entrada.FechaEntrada;
+        entradaAnterior.Concepto = entrada.Concepto;
+        foreach (var detalle in entrada.Detalles)
+        {
+            entradaAnterior.Detalles.Add(new EntradaDetalle
+            {
+                ProductoId = detalle.ProductoId,
+                Cantidad = detalle.Cantidad,
+                Costo = detalle.Costo
+            });
+        }
 
-        contexto.Entradas.Update(entrada);
+        await AfectarExistenciaProducto(contexto, entrada.Detalles.ToArray(), TipoOperacion.Suma);
         return await contexto.SaveChangesAsync() > 0;
     }
 
