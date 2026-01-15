@@ -19,13 +19,11 @@ public class EntradasService(IDbContextFactory<Contexto> DbFactory)
         await using var contexto = await DbFactory.CreateDbContextAsync();
         await AfectarExistenciaProducto(contexto, entrada.Detalles.ToArray(), TipoOperacion.Suma);
         contexto.Entradas.Add(entrada);
-        await AfectarExistenciaProducto(entrada.Detalles.ToArray(), TipoOperacion.Suma);
         return await contexto.SaveChangesAsync() > 0;
     }
 
     private async Task AfectarExistenciaProducto(Contexto contexto, EntradaDetalle[] detalle, TipoOperacion operacion)
     {
-        await using var contexto = await DbFactory.CreateDbContextAsync();
         foreach (var item in detalle)
         {
             var producto = await contexto.Productos
