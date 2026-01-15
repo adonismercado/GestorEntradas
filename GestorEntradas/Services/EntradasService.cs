@@ -17,6 +17,7 @@ public class EntradasService(IDbContextFactory<Contexto> DbFactory)
     private async Task<bool> Insertar(Entrada entrada)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
+        await AfectarExistenciaProducto(contexto, entrada.Detalles.ToArray(), TipoOperacion.Suma);
         contexto.Entradas.Add(entrada);
         await AfectarExistenciaProducto(entrada.Detalles.ToArray(), TipoOperacion.Suma);
         return await contexto.SaveChangesAsync() > 0;
